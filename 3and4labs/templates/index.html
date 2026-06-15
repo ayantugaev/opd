@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Памятные события</title>
+    <style>
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Какое событие произошло в этот день?</h1>
+    <form action="" method="post">
+        <label for="day">День:</label>
+        <br>
+        {% if error and error.day_error %}
+            <p class="error">Неверное значение дня (должно быть от 1 до 31)</p>
+        {% endif %}
+        <input type="text" id="day" name="day" value="{{ request.form.get('day', '') }}">
+        <br><br>
+
+        <label for="month">Месяц:</label>
+        <br>
+        {% if error and error.month_error %}
+            <p class="error">Неверное значение месяца</p>
+        {% endif %}
+        <input type="text" id="month" name="month" value="{{ request.form.get('month', '') }}">
+        <br><br>
+        <input type="submit" value="Узнать событие">
+    </form>
+    {% if event is not none %}
+        <h2>Памятное событие:</h2>
+        <p class="success">{{ event }}</p>
+    {% elif error and error.not_found %}
+        <p class="error">Для указанной даты нет сохранённого события.</p>
+    {% endif %}
+</body>
+</html>
